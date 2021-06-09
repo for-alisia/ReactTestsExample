@@ -4,7 +4,7 @@ import SummaryForm from '../SummaryForm';
 describe('checkbox behavior', () => {
   test('initial conditions', () => {
     render(<SummaryForm />);
-    const checkbox = screen.getByRole('checkbox', { name: 'Accept all the terms' });
+    const checkbox = screen.getByRole('checkbox', { name: 'I agree to accept all the terms' });
     const button = screen.getByRole('button', { name: 'Confirm' });
     // Button is disabled and checkbox is not checked
     expect(checkbox).not.toBeChecked();
@@ -13,7 +13,7 @@ describe('checkbox behavior', () => {
   });
   test('when checkbox is checked', () => {
     render(<SummaryForm />);
-    const checkbox = screen.getByRole('checkbox', { name: 'Accept all the terms' });
+    const checkbox = screen.getByRole('checkbox', { name: 'I agree to accept all the terms' });
     const button = screen.getByRole('button', { name: 'Confirm' });
     // Accept the terms
     fireEvent.click(checkbox);
@@ -22,7 +22,7 @@ describe('checkbox behavior', () => {
   });
   test('when checkbox is not checked', () => {
     render(<SummaryForm />);
-    const checkbox = screen.getByRole('checkbox', { name: 'Accept all the terms' });
+    const checkbox = screen.getByRole('checkbox', { name: 'I agree to accept all the terms' });
     const button = screen.getByRole('button', { name: 'Confirm' });
     // Not accept the terms
     fireEvent.click(checkbox);
