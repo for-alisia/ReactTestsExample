@@ -1,12 +1,20 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { pricePerItem } from '../constants';
 
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-Us', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(amount);
+}
+
 // @ts-ignore
-const OrderDetailes = createContext();
+const OrderDetails = createContext();
 
 // create custom hook to check whether we're inside a provider
 const useOrderDetails = () => {
-  const context = useContext(OrderDetailes);
+  const context = useContext(OrderDetails);
 
   if (!context) {
     throw new Error('useOrderDetails must be used within the OrderDetalsProvider');
@@ -20,11 +28,11 @@ const OrderDetailsProvider = (props) => {
     scoops: new Map(),
     toppings: new Map(),
   });
-
+  const zeroCurrency = formatCurrency(0);
   const [totals, setTotals] = useState({
-    scoops: 0,
-    toppings: 0,
-    grandTotal: 0,
+    scoops: zeroCurrency,
+    toppings: zeroCurrency,
+    grandTotal: zeroCurrency,
   });
 
   const calculateSubtotal = (optionType, optionCounts) => {
@@ -41,9 +49,9 @@ const OrderDetailsProvider = (props) => {
     const toppingSubtotal = calculateSubtotal('toppings', optionCounts);
     const grandTotal = scoopsSubtotal + toppingSubtotal;
     setTotals({
-      scoops: scoopsSubtotal,
-      toppings: toppingSubtotal,
-      grandTotal,
+      scoops: formatCurrency(scoopsSubtotal),
+      toppings: formatCurrency(toppingSubtotal),
+      grandTotal: formatCurrency(grandTotal),
     });
   }, [optionCounts]);
 
@@ -56,10 +64,10 @@ const OrderDetailsProvider = (props) => {
       setOptionCounts(newOptionCounts);
     };
 
-    return [{ ...optionCounts, ...totals }, updateItemCount];
+    return [{ ...optionCounts, totals }, updateItemCount];
   }, [optionCounts, totals]);
 
-  return <OrderDetailes.Provider values={value} {...props} />;
+  return <OrderDetails.Provider value={value} {...props} />;
 };
 
-export { OrderDetailes, OrderDetailsProvider, useOrderDetails };
+export { OrderDetails, OrderDetailsProvider, useOrderDetails };
