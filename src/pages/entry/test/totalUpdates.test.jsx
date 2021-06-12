@@ -1,9 +1,10 @@
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Options from '../Options';
+import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 
 test('update scoop subtotal when scoop changes', async () => {
-  render(<Options optionType="scoops" />);
+  render(<Options optionType="scoops" />, { wrapper: OrderDetailsProvider });
 
   // make sure total starts out from 0.00
   const scoopSubtotal = screen.getAllByText('Scoops total: $', { exact: false });

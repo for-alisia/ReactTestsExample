@@ -62,4 +62,4 @@ const OrderDetailsProvider = (props) => {
   return <OrderDetailes.Provider values={value} {...props} />;
 };
 
-export { OrderDetailes, OrderDetailsProvider };
+export { OrderDetailes, OrderDetailsProvider, useOrderDetails };
