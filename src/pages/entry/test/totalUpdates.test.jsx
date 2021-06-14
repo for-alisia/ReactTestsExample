@@ -46,3 +46,10 @@ test('update toppings subtotal when scoop changes', async () => {
 
   expect(toppingsSubtotal).toHaveTextContent('1.50');
 });
+
+describe('grand total', () => {
+  test('grand total starts at 0.00', () => {});
+  test('grand total updates on scoop added', () => {});
+  test('grand total updates on topping added', () => {});
+  test('grand total updates on removing item', () => {});
+});
