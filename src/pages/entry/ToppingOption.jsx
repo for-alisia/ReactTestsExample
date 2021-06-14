@@ -16,7 +16,7 @@ const ToppingOption = ({ name, imagePath, updateItemCount }) => {
           {name}
         </Form.Label>
         <Col xs="5" style={{ textAlign: 'left' }}>
-          <Form.Control type="checkbox" onChange={handleChange}></Form.Control>
+          <Form.Check type="checkbox" onChange={handleChange}></Form.Check>
         </Col>
       </Form.Group>
     </Col>
