@@ -49,14 +49,10 @@ test('update toppings subtotal when scoop changes', async () => {
 });
 
 describe('grand total', () => {
-  test('grand total starts at 0.00', () => {
+  test('grand total starts at 0.00 and grand total updates on scoop added', async () => {
     render(<OrderEntry />);
     const grandTotal = screen.getByRole('heading', { name: /grand total: \$/i });
     expect(grandTotal).toHaveTextContent('0.00');
-  });
-  test('grand total updates on scoop added', async () => {
-    render(<OrderEntry />);
-    const grandTotal = screen.getByRole('heading', { name: /grand total: \$/i });
 
     const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla' });
     userEvent.clear(vanillaInput);
@@ -72,5 +68,23 @@ describe('grand total', () => {
 
     expect(grandTotal).toHaveTextContent('1.50');
   });
-  test('grand total updates on removing item', () => {});
+  test('grand total updates on removing item', async () => {
+    render(<OrderEntry />);
+
+    const hotFudge = await screen.findByRole('checkbox', { name: 'Hot fudge' });
+    userEvent.click(hotFudge);
+
+    const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla' });
+    userEvent.clear(vanillaInput);
+    userEvent.type(vanillaInput, '2');
+
+    userEvent.clear(vanillaInput);
+    userEvent.type(vanillaInput, '1');
+
+    const grandTotal = screen.getByRole('heading', { name: /grand total: \$/i });
+    expect(grandTotal).toHaveTextContent('3.50');
+
+    userEvent.click(hotFudge);
+    expect(grandTotal).toHaveTextContent('2.00');
+  });
 });
